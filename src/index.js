@@ -2,6 +2,7 @@ import { Application } from 'pixi.js'
 import { createMap } from './createMap'
 import { zoom } from './zoom'
 import { handleDown } from './handleMapMove'
+import { getData } from './getData'
 
 console.log('Fortnite Replay Engine')
 
@@ -13,12 +14,13 @@ await app.init({
 document.body.appendChild(app.canvas)
 
 createMap(app)
+getData()
+bindEvents()
 
 function bindEvents() {
     app.stage.eventMode = 'static'
     app.stage.on('wheel', handleZoom).on('pointerdown', handleMapMovements)
 }
-bindEvents()
 
 function handleZoom(e) {
     zoom(app, e.originalEvent.deltaY, e.global.x, e.global.y)
