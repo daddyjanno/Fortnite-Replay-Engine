@@ -18,6 +18,7 @@ await createMap(app)
 await getData()
 bindEvents()
 await createPlayers(app)
+animate()
 
 function bindEvents() {
     app.stage.eventMode = 'static'
@@ -30,4 +31,15 @@ function handleZoom(e) {
 
 function handleMapMovements(e) {
     handleDown(app, e)
+}
+
+let loop
+let mustStopLoop = false
+let time = 0
+let second = 0
+let lastLoopTime = 0
+
+function animate() {
+    console.log('animate')
+    loop = requestAnimationFrame(animate)
 }
