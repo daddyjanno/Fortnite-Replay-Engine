@@ -1,4 +1,5 @@
 import { Application, applyStyleParams, Assets, Sprite } from 'pixi.js'
+import { createMap } from './createMap'
 
 console.log('Fortnite Replay Engine')
 
@@ -9,20 +10,7 @@ await app.init({
 })
 document.body.appendChild(app.canvas)
 
-async function createMap() {
-    const asset = await Assets.load(
-        'https://assets.codepen.io/39394/fortnite-map.jpg'
-    )
-    const map = Sprite.from(asset)
-    console.log('map :', { width: map.width, height: map.height })
-
-    map.x = app.screen.width / 2 - map.width / 2
-    map.y = app.screen.height / 2 - map.height / 2
-    app.stage.addChild(map)
-    map.eventMode = 'static'
-    map.cursor = 'pointer'
-}
-createMap()
+createMap(app)
 
 function bindEvents() {
     app.stage.eventMode = 'static'
