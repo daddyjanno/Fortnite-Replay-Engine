@@ -14,16 +14,18 @@ async function createMap() {
         'https://assets.codepen.io/39394/fortnite-map.jpg'
     )
     const map = Sprite.from(asset)
-    map.anchor.set(0.5)
-    map.x = app.screen.width / 2
-    map.y = app.screen.height / 2
+    console.log('map :', { width: map.width, height: map.height })
+
+    map.x = app.screen.width / 2 - map.width / 2
+    map.y = app.screen.height / 2 - map.height / 2
     app.stage.addChild(map)
+    map.eventMode = 'static'
+    map.cursor = 'pointer'
 }
 createMap()
 
 function bindEvents() {
     app.stage.eventMode = 'static'
-    app.stage.hitArea = app.screen
     app.stage.on('wheel', handleWheel)
 }
 bindEvents()
@@ -54,15 +56,4 @@ function zoom(direction, x, y) {
 
     app.stage.x -= nextPos.x - x
     app.stage.y -= nextPos.y - y
-
-    console.log(
-        'pos :',
-        { x, y },
-        'worldPos :',
-        worldPos,
-        'nextScale: ',
-        nextScale,
-        'nextPos :',
-        nextPos
-    )
 }
