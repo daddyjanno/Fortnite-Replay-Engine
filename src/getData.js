@@ -3,6 +3,5 @@ export async function getData() {
         'https://assets.codepen.io/39394/fornite-game.json'
     )
     const data = await response.json()
-    console.log(data)
     return data
 }
