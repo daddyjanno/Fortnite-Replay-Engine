@@ -1,5 +1,7 @@
-import { Application, applyStyleParams, Assets, Sprite } from 'pixi.js'
+import { Application } from 'pixi.js'
 import { createMap } from './createMap'
+import { zoom } from './zoom'
+import { handleDown } from './handleMapMove'
 
 console.log('Fortnite Replay Engine')
 
@@ -14,34 +16,14 @@ createMap(app)
 
 function bindEvents() {
     app.stage.eventMode = 'static'
-    app.stage.on('wheel', handleWheel)
+    app.stage.on('wheel', handleZoom).on('pointerdown', handleMapMovements)
 }
 bindEvents()
-function handleWheel(e) {
-    zoom(e.originalEvent.deltaY, e.global.x, e.global.y)
+
+function handleZoom(e) {
+    zoom(app, e.originalEvent.deltaY, e.global.x, e.global.y)
 }
 
-function zoom(direction, x, y) {
-    const scaleFactor = direction > 0 ? 0.75 : 1.25
-
-    const worldPos = {
-        x: (x - app.stage.x) / app.stage.scale.x,
-        y: (y - app.stage.y) / app.stage.scale.y,
-    }
-
-    const nextScale = {
-        x: app.stage.scale.x * scaleFactor,
-        y: app.stage.scale.y * scaleFactor,
-    }
-
-    const nextPos = {
-        x: worldPos.x * nextScale.x + app.stage.x,
-        y: worldPos.y * nextScale.y + app.stage.y,
-    }
-
-    app.stage.scale.x = nextScale.x
-    app.stage.scale.y = nextScale.y
-
-    app.stage.x -= nextPos.x - x
-    app.stage.y -= nextPos.y - y
+function handleMapMovements(e) {
+    handleDown(app, e)
 }
