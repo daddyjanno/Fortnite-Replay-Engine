@@ -6,8 +6,8 @@ export async function createMap(app) {
     )
     const map = Sprite.from(asset)
 
-    map.x = app.screen.width / 2 - map.width / 2
-    map.y = app.screen.height / 2 - map.height / 2
+    map.x = 0
+    map.y = 0
     app.stage.addChild(map)
     map.eventMode = 'static'
     map.cursor = 'pointer'
