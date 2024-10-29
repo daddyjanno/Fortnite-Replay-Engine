@@ -15,7 +15,7 @@ export async function createPlayers(app) {
 
 export function createPlayer() {
     const playerSkin = new Graphics()
-        .circle(0, 0, 10)
+        .circle(0, 0, 5)
         .fill({ color: Math.random() * 0xffffff })
         .stroke({
             color: 0xffffff,
