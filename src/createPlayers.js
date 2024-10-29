@@ -17,6 +17,10 @@ export function createPlayer() {
     const playerSkin = new Graphics()
         .circle(0, 0, 10)
         .fill({ color: Math.random() * 0xffffff })
+        .stroke({
+            color: 0xffffff,
+            width: 2,
+        })
     playerSkin.alpha = 0
 
     return playerSkin
