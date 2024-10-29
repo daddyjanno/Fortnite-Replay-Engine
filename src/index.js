@@ -46,10 +46,9 @@ function animate(now) {
     let elapsedMS = now - lastLoopTime
 
     if (!isNaN(elapsedMS)) {
-        time += elapsedMS
+        time += elapsedMS * 50
         sec = parseInt(time / 1000)
     }
-    console.log(sec)
 
     movePlayers(app)
 
@@ -65,10 +64,20 @@ function animate(now) {
 async function movePlayers(app) {
     for (const player in newData.players) {
         const p = newData.players[player]
-        console.log(p.skin.alpha)
 
         if (p.landed_at < sec) {
-            p.skin.alpha = 1
+            const currentPos = Math.floor((sec - p.landed_at) / 5)
+
+            if (sec < p.survival_time) {
+                if (p.positions[currentPos.toString()]) {
+                    p.skin.alpha = 1
+                    p.skin.x = p.positions[currentPos.toString()][0]
+
+                    p.skin.y = p.positions[currentPos.toString()][1]
+                }
+            } else {
+                p.skin.alpha = 0.3
+            }
         }
     }
 }
