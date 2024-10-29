@@ -3,7 +3,7 @@ import { createMap } from './createMap'
 import { zoom } from './zoom'
 import { handleDown } from './handleMapMove'
 import { getData } from './getData'
-import { createPlayers } from './createPlayers'
+import { createPlayer, createPlayers } from './createPlayers'
 
 console.log('Fortnite Replay Engine')
 
@@ -17,7 +17,10 @@ document.body.appendChild(app.canvas)
 await createMap(app)
 await getData()
 bindEvents()
-await createPlayers(app)
+const newData = await createPlayers(app)
+// await createPlayers(app)
+
+await movePlayers(app)
 animate()
 
 function bindEvents() {
@@ -36,10 +39,36 @@ function handleMapMovements(e) {
 let loop
 let mustStopLoop = false
 let time = 0
-let second = 0
+let sec = 0
 let lastLoopTime = 0
 
-function animate() {
-    console.log('animate')
-    loop = requestAnimationFrame(animate)
+function animate(now) {
+    let elapsedMS = now - lastLoopTime
+
+    if (!isNaN(elapsedMS)) {
+        time += elapsedMS
+        sec = parseInt(time / 1000)
+    }
+    console.log(sec)
+
+    movePlayers(app)
+
+    lastLoopTime = now
+
+    if (!mustStopLoop) {
+        loop = requestAnimationFrame(animate)
+    } else {
+        cancelAnimationFrame(loop)
+    }
+}
+
+async function movePlayers(app) {
+    for (const player in newData.players) {
+        const p = newData.players[player]
+        console.log(p.skin.alpha)
+
+        if (p.landed_at < sec) {
+            p.skin.alpha = 1
+        }
+    }
 }
